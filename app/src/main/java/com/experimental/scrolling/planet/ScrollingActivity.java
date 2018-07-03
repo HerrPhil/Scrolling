@@ -1,4 +1,4 @@
-package com.experimental.scrolling;
+package com.experimental.scrolling.planet;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.experimental.scrolling.R;
 import com.experimental.scrolling.databinding.ActivityScrollingBinding;
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.Section;

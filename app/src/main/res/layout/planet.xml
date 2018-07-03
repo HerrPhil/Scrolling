@@ -6,7 +6,7 @@
 
         <variable
             name="planet"
-            type="com.experimental.scrolling.Planet" />
+            type="com.experimental.scrolling.planet.Planet" />
 
     </data>
 
