@@ -1,4 +1,4 @@
-package com.experimental.scrolling;
+package com.experimental.scrolling.planet;
 
 public class Planet {
     private final String name;

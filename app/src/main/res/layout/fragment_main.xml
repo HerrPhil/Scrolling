@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.experimental.scrolling.main.MainActivityFragment"
+        tools:showIn="@layout/activity_main">
+
+        <FrameLayout
+            android:id="@+id/sun_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/planet_section"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/the_sun"
+                layout="@layout/sun" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/planet_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sun_section">
+
+            <include
+                android:id="@+id/solar_system"
+                layout="@layout/solar_system" />
+
+        </FrameLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
