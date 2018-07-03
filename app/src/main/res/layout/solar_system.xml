@@ -19,10 +19,16 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="?attr/actionBarSize"
+                android:minHeight="0dp"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
+
+                <TextView
+                    android:text="stuff to hide on scroll"
+                    android:layout_gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -31,6 +37,12 @@
                     android:minHeight="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+                <TextView
+                    android:text="custom stuff to see after scroll"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_height="?attr/actionBarSize" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
