@@ -1,7 +1,8 @@
-package com.experimental.scrolling;
+package com.experimental.scrolling.planet;
 
 import android.support.annotation.NonNull;
 
+import com.experimental.scrolling.R;
 import com.experimental.scrolling.databinding.PlanetBinding;
 import com.xwray.groupie.databinding.BindableItem;
 
