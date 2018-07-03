@@ -26,10 +26,12 @@ allprojects {
         minSdkVersion = 27
         targetSdkVersion = 27
         supportLibraryVersion = '27.1.1'
+        constraintLibraryVersion = '1.1.2'
         junitVersion = '4.12'
         testRunnerVersion = '1.0.2'
         testEspressoVersion = '3.0.2'
         groupieLibraryVersion = '2.1.0'
+        timberLibraryVersion = '4.7.1'
     }
 
 }
