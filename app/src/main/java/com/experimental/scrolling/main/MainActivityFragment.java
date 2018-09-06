@@ -114,7 +114,7 @@ public class MainActivityFragment extends Fragment {
                 delegateArea3.bottom += 4;
 
                 // Instantiate touch delegates.
-                // "delegateArea" is the bounds in local coordinates of the containing view
+                // "delegateAreax" is the bounds in local coordinates of the containing view
                 // to be mapped to the delegate view.
                 // "buttonx" is the child view that should receive motion events.
                 TouchDelegate touchDelegate1 = new TouchDelegate(delegateArea1, button1);
