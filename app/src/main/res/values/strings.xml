@@ -91,6 +91,7 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="sun_title">The Sun</string>
+    <string name="custom_stuff_to_see_after_scrolling">custom stuff to see after scrolling</string>
     <string-array name="planets">
         <item>Mercury 1</item>
         <item>Venus 1</item>
