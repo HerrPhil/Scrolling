@@ -90,7 +90,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-    <string name="sun_title">The Sun</string>
+    <string name="sun_title">Details about the sun</string>
     <string name="custom_stuff_to_see_after_scrolling">custom stuff to see after scrolling</string>
     <string name="button_1">Button 1</string>
     <string name="button_2">Button 2</string>
@@ -98,9 +98,12 @@
     <string name="button_description_1">This is button 1</string>
     <string name="button_description_2">This is button 2</string>
     <string name="button_description_3">This is button 3</string>
-    <string name="sun_description_1">The sun is hot.</string>
-    <string name="sun_description_2">The sun is round.</string>
-    <string name="sun_description_3">The sun is yellow.</string>
+    <string-array name="sun_descriptions">
+        <item>The sun is hot.</item>
+        <item>The sun is round.</item>
+        <item>The sun is yellow.</item>
+    </string-array>
+    <string name="sun_more_info">More to come...</string>
     <string-array name="planets">
         <item>Mercury 1</item>
         <item>Venus 1</item>

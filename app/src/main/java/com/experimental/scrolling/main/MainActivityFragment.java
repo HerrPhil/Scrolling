@@ -3,6 +3,7 @@ package com.experimental.scrolling.main;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +17,13 @@ import android.widget.Toast;
 
 import com.experimental.scrolling.R;
 import com.experimental.scrolling.databinding.FragmentMainBinding;
+import com.experimental.scrolling.manager.CustomLinearLayoutManager;
 import com.experimental.scrolling.planet.Planet;
 import com.experimental.scrolling.planet.PlanetItem;
+import com.experimental.scrolling.sun.SunItem;
 import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Item;
+import com.xwray.groupie.OnItemClickListener;
 import com.xwray.groupie.Section;
 
 import java.util.ArrayList;
@@ -37,17 +42,18 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        setUpSun();
+        setUpButtons();
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpSunDetails();
         setUpSolarSystem();
     }
 
-    private void setUpSun() {
+    private void setUpButtons() {
         // The collapsing toolbar layout (FrameLayout) stretches over the whole collapsing area.
         // The app needs to delegate click events on that area to buttons below it.
         // get click parent
@@ -134,8 +140,36 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
+    }
 
-
+    private void setUpSunDetails() {
+        if (!(binding.solarSystem.sunDetailContent instanceof RecyclerView)) {
+            return;
+        }
+        RecyclerView recyclerView = (RecyclerView) binding.solarSystem.sunDetailContent;
+        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        layoutManager.setScrollEnabled(false);
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider, getContext().getTheme()));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        GroupAdapter adapter = new GroupAdapter();
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull Item item, @NonNull View view) {
+                SunItem sunItem = (SunItem) item;
+                Toast.makeText(getContext(), String.format("%d: %s", sunItem.getPosition(), getResources().getString(R.string.sun_more_info))  , Toast.LENGTH_SHORT).show();
+            }
+        });
+        String[] descriptions = getResources().getStringArray(R.array.sun_descriptions);
+        Section updatingGroup = new Section();
+        List<SunItem> items = new ArrayList<>();
+        for (String description : descriptions) {
+            items.add(new SunItem(description));
+        }
+        updatingGroup.update(items);
+        adapter.add(updatingGroup);
+        recyclerView.setAdapter(adapter);
     }
 
     private void setUpSolarSystem() {
@@ -143,18 +177,18 @@ public class MainActivityFragment extends Fragment {
             return;
         }
         RecyclerView recyclerView = (RecyclerView) binding.solarSystem.planetContent;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(this.getResources().getDrawable(R.drawable.divider, this.getContext().getTheme()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider, getContext().getTheme()));
         recyclerView.addItemDecoration(dividerItemDecoration);
         GroupAdapter adapter = new GroupAdapter();
-        String[] planets = this.getResources().getStringArray(R.array.planets);
+        String[] planets = getResources().getStringArray(R.array.planets);
         Section updatingGroup = new Section();
-        List<PlanetItem> updatableItems = new ArrayList<>();
+        List<PlanetItem> items = new ArrayList<>();
         for (String planet : planets) {
-            updatableItems.add(new PlanetItem(new Planet(planet)));
+            items.add(new PlanetItem(new Planet(planet)));
         }
-        updatingGroup.update(updatableItems);
+        updatingGroup.update(items);
         adapter.add(updatingGroup);
         recyclerView.setAdapter(adapter);
     }
