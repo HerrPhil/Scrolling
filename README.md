@@ -1,6 +1,7 @@
 # Scrolling and Pinning
 
-After reviewing several blog posts, I needed a few more repititions to get my head around the finer points of the CoordinatorLayout and its scrolling capabilities.
+After reviewing several blog posts, I needed a few more repititions to get my head around the finer
+points of the CoordinatorLayout and its scrolling capabilities.
 
 https://guides.codepath.com/android/handling-scrolls-with-coordinatorlayout
 http://saulmm.github.io/mastering-coordinator
@@ -38,7 +39,8 @@ CollapsingToolbarLayout is a FrameLayout that implements a collapsing app bar.
 https://developer.android.com/reference/android/support/design/widget/CollapsingToolbarLayout
 
 It also manages children that are marked to be pinned.
-It is important to allow it to be resized at runtime.  Layout width and height should match parent.  The minimum height should be 0dp.  The scroll flags need to allow scrolling and the content to disappear (exitUntilCollapsed).
+It is important to allow it to be resized at runtime.  Layout width and height should match parent.
+The minimum height should be 0dp.  The scroll flags need to allow scrolling and the content to disappear (exitUntilCollapsed).
 ```xml
 <android.support.design.widget.CollapsingToolbarLayout
   android:id="@+id/toolbar_layout"
@@ -52,7 +54,8 @@ It is important to allow it to be resized at runtime.  Layout width and height s
 
 The first child of CollapsingToobarLayout is the Toolbar.
 https://developer.android.com/reference/android/support/v7/widget/Toolbar
-The important configuration settings of the Toolbar are the height of the pinned area and the collapse mode (pin).
+The important configuration settings of the Toolbar are the height of the pinned area and the
+collapse mode (pin).
 ```xml
 <android.support.v7.widget.Toolbar
 android:id="@+id/toolbar"
@@ -61,7 +64,8 @@ android:layout_height="24dp"
 app:layout_collapseMode="pin"
 app:popupTheme="@style/AppTheme.PopupOverlay" />
 ```
-I discovered by tracing through the CollapsingToolbarLayout that it inherits the height of its Toolbar child as its minimum height.  This is the height at which collapsing stops.
+I discovered by tracing through the CollapsingToolbarLayout that it inherits the height of its
+Toolbar child as its minimum height.  This is the height at which collapsing stops.
 ```java
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -83,7 +87,8 @@ I discovered by tracing through the CollapsingToolbarLayout that it inherits the
 ```
 
 The second child of CollapsingToolbarLayout is the layout of content that is to be pinned.
-This layout should be equal in height to the Toolbar.  This allows it to be fully flush with the top of the screen when it is scrolled to the top.
+This layout should be equal in height to the Toolbar.  This allows it to be fully flush with the top
+of the screen when it is scrolled to the top.
 ```xml
 <TextView
   android:layout_width="wrap_content"
@@ -92,7 +97,8 @@ This layout should be equal in height to the Toolbar.  This allows it to be full
   android:text="@string/custom_stuff_to_see_after_scrolling"
   android:textAppearance="@android:style/TextAppearance.Medium" />
 ```
-If whitespace is needed, then added a top margin to the Toolbar.  The CollapsingToolbarLayout includes this value in the calculated height at which collapsing stops.
+If whitespace is needed, then added a top margin to the Toolbar.  The CollapsingToolbarLayout
+includes this value in the calculated height at which collapsing stops.
 ```xml
 <android.support.v7.widget.Toolbar
   android:id="@+id/toolbar"
@@ -103,4 +109,18 @@ If whitespace is needed, then added a top margin to the Toolbar.  The Collapsing
   app:popupTheme="@style/AppTheme.PopupOverlay" />
 ```
 
-The second child of CoordinatorLayout is the layout that is the container of content (ie. other views) that are visible under the pinned view container.  For example, this might be a list of information.
+The second child of CoordinatorLayout is the layout that is the container of content (ie. other
+views) that are visible under the pinned view container.  For example, this might be a list of
+information.
+
+I discovered that the CollapsingToolbarLayout (FrameLayout) matches the height of the entire height above the
+pinned layout.  This is expected of a FrameLayout.  One consequence of this is that the
+CollapsingToolbarLayout consumes clicks when the user attempts to click a button.  The FrameLayout's
+z-index is above the window pane with the buttons.  To overcome this problem, touch delegates are
+used and a runnable post-delayed action is added to the CollapsingToolbarLayout.  This forwards
+click events to the buttons.
+https://developer.android.com/training/gestures/viewgroup
+-  see "Extend a child view's touchable area"
+
+This is not an issue for Recyclerview lists nested in the CollapsingToolbarLayout.  Clicks on
+the row items work as expected, with no touch delegate.
