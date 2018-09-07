@@ -15,9 +15,9 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/planet-row"
+            android:id="@+id/planet_row"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/listPreferredItemHeight"
+            android:layout_height="?android:attr/listPreferredItemHeight"
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:background="@android:color/white"
