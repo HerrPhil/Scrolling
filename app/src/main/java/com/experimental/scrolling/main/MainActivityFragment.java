@@ -3,7 +3,6 @@ package com.experimental.scrolling.main;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +21,6 @@ import com.experimental.scrolling.planet.Planet;
 import com.experimental.scrolling.planet.PlanetItem;
 import com.experimental.scrolling.sun.SunItem;
 import com.xwray.groupie.GroupAdapter;
-import com.xwray.groupie.Item;
-import com.xwray.groupie.OnItemClickListener;
 import com.xwray.groupie.Section;
 
 import java.util.ArrayList;
@@ -58,86 +55,68 @@ public class MainActivityFragment extends Fragment {
         // The app needs to delegate click events on that area to buttons below it.
         // get click parent
         View clickParent = binding.solarSystem.toolbarLayout;
-        clickParent.post(new Runnable() {
-            // Post in the parent's message queue to make sure the parent lays out its children
-            // before you call getHitRect().
-            @Override
-            public void run() {
-                // The bounds for the delegate views (Buttons)
-                Rect delegateArea1 = new Rect();
-                Rect delegateArea2 = new Rect();
-                Rect delegateArea3 = new Rect();
+        // Post in the parent's message queue to make sure the parent lays out its children
+        // before you call getHitRect().
+        clickParent.post(() -> {
+            // The bounds for the delegate views (Buttons)
+            Rect delegateArea1 = new Rect();
+            Rect delegateArea2 = new Rect();
+            Rect delegateArea3 = new Rect();
 
-                // The buttons.
-                Button button1 = binding.solarSystem.sunButton1;
-                Button button2 = binding.solarSystem.sunButton2;
-                Button button3 = binding.solarSystem.sunButton3;
+            // The buttons.
+            Button button1 = binding.solarSystem.sunButton1;
+            Button button2 = binding.solarSystem.sunButton2;
+            Button button3 = binding.solarSystem.sunButton3;
 
-                // Enable buttons.
-                button1.setEnabled(true);
-                button2.setEnabled(true);
-                button3.setEnabled(true);
+            // Enable buttons.
+            button1.setEnabled(true);
+            button2.setEnabled(true);
+            button3.setEnabled(true);
 
-                // Listener to button clicks.
-                binding.solarSystem.sunButton1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getContext(), R.string.button_description_1, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                binding.solarSystem.sunButton2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getContext(), R.string.button_description_2, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                binding.solarSystem.sunButton3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getContext(), R.string.button_description_3, Toast.LENGTH_SHORT).show();
-                    }
-                });
+            // Listener to button clicks.
+            binding.solarSystem.sunButton1.setOnClickListener(v -> Toast.makeText(getContext(), R.string.button_description_1, Toast.LENGTH_SHORT).show());
+            binding.solarSystem.sunButton2.setOnClickListener(v -> Toast.makeText(getContext(), R.string.button_description_2, Toast.LENGTH_SHORT).show());
+            binding.solarSystem.sunButton3.setOnClickListener(v -> Toast.makeText(getContext(), R.string.button_description_3, Toast.LENGTH_SHORT).show());
 
-                // Get hit rectangles.
-                button1.getHitRect(delegateArea1);
-                button2.getHitRect(delegateArea2);
-                button3.getHitRect(delegateArea3);
+            // Get hit rectangles.
+            button1.getHitRect(delegateArea1);
+            button2.getHitRect(delegateArea2);
+            button3.getHitRect(delegateArea3);
 
-                // Extend the buttons' touch area
-                delegateArea1.left += 4;
-                delegateArea1.right += 4;
-                delegateArea1.top += 4;
-                delegateArea1.bottom += 4;
+            // Extend the buttons' touch area
+            delegateArea1.left += 4;
+            delegateArea1.right += 4;
+            delegateArea1.top += 4;
+            delegateArea1.bottom += 4;
 
-                delegateArea2.left += 4;
-                delegateArea2.right += 4;
-                delegateArea2.top += 4;
-                delegateArea2.bottom += 4;
+            delegateArea2.left += 4;
+            delegateArea2.right += 4;
+            delegateArea2.top += 4;
+            delegateArea2.bottom += 4;
 
-                delegateArea3.left += 4;
-                delegateArea3.right += 4;
-                delegateArea3.top += 4;
-                delegateArea3.bottom += 4;
+            delegateArea3.left += 4;
+            delegateArea3.right += 4;
+            delegateArea3.top += 4;
+            delegateArea3.bottom += 4;
 
-                // Instantiate touch delegates.
-                // "delegateAreax" is the bounds in local coordinates of the containing view
-                // to be mapped to the delegate view.
-                // "buttonx" is the child view that should receive motion events.
-                TouchDelegate touchDelegate1 = new TouchDelegate(delegateArea1, button1);
-                TouchDelegate touchDelegate2 = new TouchDelegate(delegateArea2, button2);
-                TouchDelegate touchDelegate3 = new TouchDelegate(delegateArea3, button3);
+            // Instantiate touch delegates.
+            // "delegateAreax" is the bounds in local coordinates of the containing view
+            // to be mapped to the delegate view.
+            // "buttonx" is the child view that should receive motion events.
+            TouchDelegate touchDelegate1 = new TouchDelegate(delegateArea1, button1);
+            TouchDelegate touchDelegate2 = new TouchDelegate(delegateArea2, button2);
+            TouchDelegate touchDelegate3 = new TouchDelegate(delegateArea3, button3);
 
-                // Set the touch delegate on the parent view.
-                // Touches within the touch delegate bounds are routed to the child.
-                if (View.class.isInstance(button1.getParent())) {
-                    ((View) button1.getParent()).setTouchDelegate(touchDelegate1);
-                }
-                if (View.class.isInstance(button2.getParent())) {
-                    ((View) button2.getParent()).setTouchDelegate(touchDelegate2);
-                }
-                if (View.class.isInstance(button3.getParent())) {
-                    ((View) button3.getParent()).setTouchDelegate(touchDelegate3);
-                }
+            // Set the touch delegate on the parent view.
+            // Touches within the touch delegate bounds are routed to the child.
+            if (View.class.isInstance(button1.getParent())) {
+                ((View) button1.getParent()).setTouchDelegate(touchDelegate1);
+            }
+            if (View.class.isInstance(button2.getParent())) {
+                ((View) button2.getParent()).setTouchDelegate(touchDelegate2);
+            }
+            if (View.class.isInstance(button3.getParent())) {
+                ((View) button3.getParent()).setTouchDelegate(touchDelegate3);
             }
         });
     }
@@ -154,12 +133,9 @@ public class MainActivityFragment extends Fragment {
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider, getContext().getTheme()));
         recyclerView.addItemDecoration(dividerItemDecoration);
         GroupAdapter adapter = new GroupAdapter();
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull Item item, @NonNull View view) {
-                SunItem sunItem = (SunItem) item;
-                Toast.makeText(getContext(), String.format("%d: %s", sunItem.getPosition(), getResources().getString(R.string.sun_more_info))  , Toast.LENGTH_SHORT).show();
-            }
+        adapter.setOnItemClickListener((item, view) -> {
+            SunItem sunItem = (SunItem) item;
+            Toast.makeText(getContext(), String.format(getResources().getConfiguration().getLocales().get(0), "%d: %s", sunItem.getPosition(), getResources().getString(R.string.sun_more_info)), Toast.LENGTH_SHORT).show();
         });
         String[] descriptions = getResources().getStringArray(R.array.sun_descriptions);
         Section updatingGroup = new Section();
